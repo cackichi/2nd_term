@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Административная панель</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:insert="~{blocks/header :: header}"></header>
+
+<section>
+    <h1 class="welcome">Добро пожаловать в панель администратора</h1>
+    <h2 class="admin">Список всех существующих пользователей:</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Логин</th>
+            <th>Email</th>
+            <th>Роль</th>
+            <th>Удаление</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">1</td>
+            <td th:text="${user.login}">username</td>
+            <td th:text="${user.email}">user@example.com</td>
+            <td>
+                <form class="select-role"  th:action="@{/admin/update-role}" method="post">
+                    <select name="newRole">
+                        <option value="USER" th:selected="${user.getRole().toString() == 'USER'}">Пользователь</option>
+                        <option value="ADMIN" th:selected="${user.getRole().toString() == 'ADMIN'}">Администратор</option>
+                        <option value="SUPER_USER" th:selected="${user.getRole().toString() == 'SUPER_USER'}">Суперпользователь</option>
+                    </select>
+                    <input type="hidden" name="userIdForRole" th:value="${user.id}">
+                    <button class="default-btn" type="submit">Обновить роль</button>
+                </form>
+            </td>
+            <td>
+                <form th:if="${user.id != 2}" th:action="@{/admin/delete-user}" method="post">
+                    <input type="hidden" name="userIdForDelete" th:value="${user.id}">
+                    <button class="default-btn" type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h2 class="admin">Список всех существующих номеров:</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название номера</th>
+            <th>Ссылка на номер</th>
+            <th>ID создателя</th>
+            <th>Удаление</th>
+            <th>Редактирование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.id}">1</td>
+            <td th:text="${room.name}">name</td>
+            <td><a th:href="@{'/post/' + ${room.id}}">Ссылка</a></td>
+            <td th:text="${room.userEntity.id}"></td>
+            <td>
+                <form th:action="@{/admin/delete-room}" method="post">
+                    <input type="hidden" name="roomIdForDelete" th:value="${room.id}">
+                    <button class="default-btn" type="submit">Удалить</button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/edit-room}" method="get">
+                    <input type="hidden" name="roomIdForEdit" th:value="${room.id}">
+                    <button class="default-btn" type="submit">Редактировать</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h2 class="admin">Список всех существующих бронирований:</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID брони</th>
+            <th>Название номера</th>
+            <th>Ссылка на номер</th>
+            <th>ID бронирующего</th>
+            <th>С</th>
+            <th>По</th>
+            <th>Удаление</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.id}">1</td>
+            <td th:text="${reservation.hotelRoomEntity.name}">name</td>
+            <td><a th:href="@{'/post/' + ${reservation.hotelRoomEntity.id}}">Ссылка</a></td>
+            <td th:text="${reservation.userEntity.id}"></td>
+            <td th:text="${reservation.dateOfReservation}"></td>
+            <td th:text="${reservation.dateOfEviction}"></td>
+            <td>
+                <form th:action="@{/admin/delete-reservation}" method="post">
+                    <input type="hidden" name="reservationIdForDelete" th:value="${reservation.id}">
+                    <button class="default-btn" type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer th:insert="~{blocks/footer :: footer}"></footer>
+</body>
+</html>

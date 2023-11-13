@@ -1,0 +1,551 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Dosis:400,700');
+html{
+    font-family:'Oswald', sans-serif;
+}
+
+input, textarea, select, button {
+    font-family: 'Oswald', sans-serif;
+}
+
+body {
+    font-family:'Oswald', sans-serif;
+    background: #a4795c;
+}
+
+/* Стили для хеддера и футера */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: none;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Стили для логотипа */
+.logo {
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    background: #483d2c;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Стили для навигации */
+.nav-header {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: #483d2c;
+}
+
+.nav-footer {
+    padding-bottom: 10px;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+}
+
+footer p {
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Регистрация и авторизация */
+.form-floating {
+    padding: 0 0 10px;
+}
+
+.sign {
+    width: 400px;
+    padding: 40px;
+    background: #c1bcb0;
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+
+.sign h1 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+}
+
+.sign input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+
+.sign-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+}
+
+.sign-btn {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 0;
+    background: #483d2c;
+    color: #fff;
+}
+
+/* Стили для кнопки входа/регистрации */
+.center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72vh;
+}
+
+.content-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 75vh;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.room-list{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 900px;
+    justify-content: center;
+    margin: auto;
+    list-style: none;
+    padding-left: 0;
+}
+
+.room {
+    display: flex;
+    padding: 10px;
+    background: #c1bcb0;
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    margin: 10px;
+}
+
+img {
+    max-width: 150px;
+    max-height: 150px;
+    margin-right: 10px;
+}
+
+.room-link {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.5s;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    text-align: center;
+}
+
+.arrow-circle {
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    padding: 5px;
+    margin-right: 50px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 25px;
+    font-size: 25px;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+}
+.row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter{
+    margin-top: 50px;
+    width: 500px;
+    padding: 40px;
+    background: #c1bcb0;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+.filter input[type="file"]::-webkit-file-upload-button{
+    border-radius: 10px;
+    color: #ffffff;
+    background: #483d2c;
+}
+
+.filter input[type="file"]{
+    margin-left: 60px;
+    color: #888888;
+    border-bottom: 0;
+}
+.filter fieldset{
+    border: none;
+}
+.filter input[type="date"]{
+    color: #888888;
+}
+.filter select{
+    padding: 10px 0;
+    font-size: 16px;
+    color: #888888;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.select-sort{
+    margin-left: 800px;
+    margin-top: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+.content-wrapper select{
+    padding: 10px 0;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: rgb(164, 121, 92);
+}
+.filter textarea{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    border: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.filter input{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.filter legend{
+    text-align: center;
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.list-of-rooms{
+    margin-top: 75px;
+}
+h1{
+    color: #ffffff;
+}
+.filter label{
+    color: #000;
+}
+.room-details-main img{
+    width: 150px;
+    height: 150px;
+}
+.room-details-main{
+    font-weight: normal;
+    margin-left: 25px;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0 20px 0 20px;
+}
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.table th, .table td {
+    border: 1px solid #000; /* Добавляем границы */
+    padding: 8px 12px;
+    text-align: center;
+    line-height: 1.5;
+    color: #ffffff; /* Изменяем цвет текста */
+}
+
+.table th {
+    font-weight: normal;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+    max-width: 200px; /* Задайте желаемую максимальную ширину */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Если текст не помещается, то будет многоточие (...) */
+}
+
+.table td:last-child {
+    white-space: nowrap;
+}
+.welcome{
+    text-align: center;
+}
+.admin{
+    color: #ffffff;
+}
+
+.default-btn{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 200px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 0;
+    background: #483d2c;
+    color: #fff;
+}
+
+.select-role select{
+    padding: 10px 0;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: rgb(164, 121, 92);
+}
+.services{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+
+/* Стили для блока "empty-search" */
+.empty-search {
+    text-align: center;
+    background: #c1bcb0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    background: #c1bcb0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.profile-item {
+    margin: 10px 0;
+}
+
+.profile-item strong {
+    font-weight: bold;
+}
+
+.room-info, .reservation-info {
+    margin-top: 20px;
+}
+
+.room-info h4, .reservation-info h4 {
+    font-size: 1.5em;
+}
+
+h4.fullPrice {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.5em;
+}
+.created-room{
+    display: flex;
+}
+.profile-info ul{
+    list-style: none;
+    padding: 0;
+}
+.profile-info li{
+    margin: 10px 0;
+}
+.reservations{
+    display: flex;
+}
+
+.profile-info button{
+    margin-left: 10px;
+}
+.since{
+    margin-left: 10px;
+}
+.row-posting{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72vh;
+}
+.alert-ul{
+    list-style: none;
+    margin-right: 10px;
+}
+.alert-danger {
+    margin-top: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.5);
+    display: inline-block;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.centered{
+    display: flex;
+    justify-content: center;
+}
+
+.room-post {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 20px 40px 40px 40px;
+    background: #c1bcb0;
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+
+.slider-container {
+    max-width: 160px;
+    min-width: 160px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.slider {
+    width: 100%;
+    display: flex;
+    transition: transform 0.5s;
+}
+
+.slide {
+    flex: 0 0 100%;
+}
+
+.slider-button {
+    display: inline-block;
+    border: 2px solid #333;
+    border-radius: 50%;
+    padding: 0;
+    background: transparent;
+    margin-left: 26px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.reserv{
+    font-weight: bold;
+    text-align: center;
+}
+
+.room-details{
+    font-weight: normal;
+    margin-left: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 0 20px 0 20px;
+}
+
+.form {
+    margin-top: 20px;
+    min-width: 200px;
+    max-width: 200px;
+    max-height: 257px;
+    min-height: 257px;
+    margin-left: 35px;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 0 20px 0 20px;
+}
+
+.form input[type="date"] {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #888888;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.h2{
+    text-align: center;
+    color: #ffffff;
+}
+.slider-and-details{
+    display: flex;
+}
+.description{
+    text-align: center;
+}
+.col-left{
+    margin-right: 18px;
+    width: 160px;
+}
+.col-right{
+    margin-left: 18px;
+    width: 160px;
+}

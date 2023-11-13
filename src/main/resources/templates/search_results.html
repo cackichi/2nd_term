@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotel</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+</head>
+<header th:insert="~{blocks/header :: header}"></header>
+<body>
+<div class="content-wrapper">
+  <div th:if="${not isEmpty}">
+    <form class="select-sort" id="sortForm">
+      <select name="sortSelect" id="sortSelect">
+        <option value="default">Сортировка</option>
+        <option value="byPrice">По цене: сначала дешевые</option>
+        <option value="byPriceDescending">По цене: сначала дорогие</option>
+        <option value="bySleepers">По количеству спальных мест: сначала маленькие</option>
+        <option value="bySleepersDescending">По количеству спальных мест: сначала большие</option>
+        <option value="byAlphabet">По алфавиту: от А до Я</option>
+        <option value="byAlphabetDescending">По алфавиту: от Я до А</option>
+      </select>
+      <button class="default-btn" type="button" onclick="sortList()">Сортировать</button>
+    </form>
+    <h2 class="admin">Результат поиска:</h2>
+    <ul class="room-list" id="roomList">
+      <li th:each="room : ${result.content}" th:data-byPrice="${room.pricePerDay}" th:data-bySleepers="${room.amountOfSleepers}" th:data-byAlphabet="${room.name}">
+        <a th:href="@{'/post/' + ${room.id}}" class="room-link">
+          <div class="room">
+            <img th:src="@{'/photos/' + ${room.photos.get(0)} + '?rand=' + ${randomValue}}" alt="Изображение номера" width="150" height="150">
+            <div class="room-details">
+              <h2>Название номера: <span th:text="${room.name}"></span></h2>
+              <p>Спальных мест: <span th:text="${room.amountOfSleepers}"></span></p>
+              <p>Услуги:
+              <ul>
+                <li class="services" th:each="service : ${room.services}">
+                  <span th:text="${service}"></span>
+                </li>
+              </ul>
+              </p>
+              <p>Цена за день: <span th:text="${room.pricePerDay} + '$'"></span></p>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+
+    <div th:if="${result.totalPages > 1}">
+      <ul class="pagination">
+        <li th:class="${result.number == 0} ? 'disabled'">
+          <a th:if="${result.number != 0}" th:href="@{'/?page=' + ${result.number - 1}}">
+            <span class="arrow-circle">&laquo;</span>
+          </a>
+        </li>
+
+        <li th:class="${result.number == 0} ? 'disabled'">
+          <a th:if="${result.number != result.totalPages - 1}" th:href="@{'/?page=' + ${result.number + 1}}">
+            <span class="arrow-circle">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="search-container">
+    <div th:if="${isEmpty}" class="empty-search">
+      <h2>Поиск не дал результата</h2>
+      <form th:action="@{/}" method="get">
+        <button type="submit" class="default-btn">Вернуться назад</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+<footer th:insert="~{blocks/footer :: footer}"></footer>
+<script>
+  // Обновление sessionStorage при изменении значения сортировки
+  function updateSortOption() {
+    var select = document.getElementById('sortSelect');
+    var selectedOption = select.options[select.selectedIndex].value;
+    sessionStorage.setItem('selectedSortOption', selectedOption);
+  }
+
+  // Получение сохраненного значения сортировки при загрузке страницы
+  function getSavedSortOption() {
+    return sessionStorage.getItem('selectedSortOption');
+  }
+
+  // Задаем сохраненное значение при загрузке страницы
+  document.addEventListener('DOMContentLoaded', function () {
+    var savedSortOption = getSavedSortOption();
+    if (savedSortOption) {
+      var select = document.getElementById('sortSelect');
+      select.value = savedSortOption;
+    }
+  });
+
+  // Вызываем updateSortOption при изменении значения в селекте
+  document.getElementById('sortSelect').addEventListener('change', updateSortOption);
+
+  // Функция сортировки
+  function sortList() {
+    var selectedOption = getSavedSortOption();
+
+    // Получаем текущий URL
+    var url = window.location.href;
+
+    // Ищем существующий параметр sortBy в URL
+    var sortByIndex = url.indexOf('&sortBy=');
+
+    // Если параметр sortBy уже существует, обрезаем его из URL
+    if (sortByIndex !== -1) {
+      url = url.substring(0, sortByIndex);
+    }
+
+    // Добавляем выбранное значение сортировки в URL
+    url = url + "&sortBy=" + selectedOption;
+
+    // Перенаправляем на обновленный URL
+    window.location.href = url;
+  }
+
+</script>
+</html>

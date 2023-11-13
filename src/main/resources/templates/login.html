@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+
+</head>
+<body>
+<header th:insert="~{blocks/header :: header}"></header>
+    <section class="sign-section">
+        <main class="sign">
+            <div th:if="${param.error}">
+                Неверный логин или пароль
+            </div>
+            <div th:if="${param.logout}">
+                Вы вышли из аккаунта
+            </div>
+            <form th:action="@{/login}" method="post">
+                <h1>Авторизация</h1>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingLogin" name="username" placeholder="Логин">
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="floatingPassword" name="password"
+                           placeholder="Пароль">
+                </div>
+                <button class="sign-btn" type="submit">Войти</button>
+            </form>
+        </main>
+    </section>
+<footer th:insert="~{blocks/footer :: footer}"></footer>
+</body>
+</html>

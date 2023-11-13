@@ -1,0 +1,12 @@
+<footer class="container" th:fragment="footer">
+    <footer>
+        <ul class="nav-footer">
+            <li class="nav-item" th:if="${authentication.name != 'anonymousUser'}"><a href="/" class="nav-link px-2 text-body-secondary">Главная</a></li>
+            <li class="nav-item" th:if="${roles.contains('ADMIN')}"><a href="/admin" class="nav-link px-2 text-body-secondary">Панель администратора</a></li>
+            <li class="nav-item" th:if="${roles.contains('ADMIN') or roles.contains('SUPER_USER')}"><a href="/posting" class="nav-link px-2 text-body-secondary">Добавление объявления</a></li>
+        </ul>
+        <p>Hotel 2023</p>
+    </footer>
+</footer>
+
+<!--<footer th:insert="~{blocks/footer :: footer}"></footer>-->

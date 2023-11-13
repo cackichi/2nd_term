@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:insert="~{blocks/header :: header}"></header>
+<div class="centered">
+    <div th:if="${errorOfExist}" class="alert-danger">
+        <p th:text="${errorOfExist}"></p>
+    </div>
+    <div th:if="${errorOfRepeatPassword}" class="alert-danger">
+        <p th:text="${errorOfRepeatPassword}"></p>
+    </div>
+</div>
+<section class="sign-section">
+    <main class="sign">
+        <form th:method="post" th:action="@{/reg}" th:object="${userEntity}">
+            <h1>Регистрация</h1>
+
+            <div class="form-floating">
+                <input type="text" th:field="*{login}" class="form-control" id="login" placeholder="Логин">
+            </div>
+            <div class="form-floating">
+                <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Почта">
+            </div>
+            <div class="form-floating">
+                <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Пароль">
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="repeatPassword" name="repeatPassword"
+                       placeholder="Повторение пароля">
+            </div>
+            <button class="sign-btn" type="submit">Зарегистрироваться
+            </button>
+        </form>
+    </main>
+</section>
+<footer th:insert="~{blocks/footer :: footer}"></footer>
+</body>
+</html>

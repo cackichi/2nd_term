@@ -1,0 +1,15 @@
+<div th:fragment="header">
+    <header class="header">
+        <a href="/" class="logo">Отель</a>
+        <ul class="nav-header">
+            <li class="nav-item" th:if="${authentication.name != 'anonymousUser'}"><a href="/" class="nav-link active" aria-current="page">Главная</a></li>
+            <li class="nav-item" th:if="${authentication.name == 'anonymousUser'}"><a href="/reg" class="nav-link">Регистрация</a></li>
+            <li class="nav-item" th:if="${authentication.name == 'anonymousUser'}"><a href="/login" class="nav-link">Вход</a></li>
+            <li class="nav-item" th:if="${authentication.name != 'anonymousUser'}"><a href="/profile" class="nav-link">Профиль</a></li>
+            <li class="nav-item" th:if="${authentication.name != 'anonymousUser'}"><a href="/about-us" class="nav-link">О нас</a></li>
+            <li class="nav-item" th:if="${authentication.name != 'anonymousUser'}"><a href="/logout" class="nav-link">Выход</a></li>
+        </ul>
+    </header>
+</div>
+
+<!--<header th:insert="~{blocks/header :: header}"></header>-->
