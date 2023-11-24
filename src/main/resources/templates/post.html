@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hotel Room</title>
+    <title>Hotel</title>
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
 </head>
 <body>
@@ -18,7 +18,10 @@
         </ul>
     </div>
 </div>
-<h2 class="h2" th:text="${room.name}">Название</h2>
+<h2 class="h2">
+    <span th:text="${room.name + ' ' + rating}"></span>
+    <span>&#9733;</span>
+</h2>
 <div class="room-post">
     <div class="slider-and-details">
         <div class="slider-container">
@@ -36,31 +39,79 @@
         <p>Спальных мест: <span th:text="${room.amountOfSleepers}"></span></p>
         <p>Услуги:
             <ul>
-                <li th:each="service : ${room.services}" style="list-style: none">
+                <li th:each="service : ${room.services}" class="alert-ul">
                     <span th:text="${service}"></span>
                 </li>
             </ul>
         </p>
         <p>Цена за день: <span th:text="${room.pricePerDay} + '$'"></span></p>
     </div>
-        <form th:action="@{'/post/' + ${room.id}}" th:method="post" class="form">
+        <form th:action="@{/reserve}" th:method="post" class="form">
             <p class="reserv">Бронирование</p>
-            <div class="form-group">
                 <label for="checkInDate">Дата заезда:</label>
-                <input type="date" id="checkInDate" name="checkInDate" class="form-control">
-            </div>
-            <div class="form-group">
+                <input type="date" id="checkInDate" name="checkInDate">
+
                 <label for="checkOutDate">Дата выезда:</label>
-                <input type="date" id="checkOutDate" name="checkOutDate" class="form-control">
-            </div>
+                <input type="date" id="checkOutDate" name="checkOutDate">
+
+            <input type="hidden" name="roomIdForReserve" th:value="${room.id}">
             <button type="submit" class="sign-btn">Забронировать</button>
         </form>
-</div>
+    </div>
     <div class="description">
         <h4>Описание</h4>
         <p th:text="${room.description}"></p>
     </div>
 </div>
+<h1 class="list-of-rooms description" >Оставьте свой отзыв</h1>
+<div class="review-input">
+    <form class="reviewForm" th:action="@{/add-review}" th:method="post">
+        <label for="reviewText">Отзыв:</label>
+        <textarea id="reviewText" name="reviewText" rows="4" cols="50" required></textarea><br>
+        <div class="rating">
+            <label for="rating">Оценка:</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required><br>
+        </div>
+        <input type="hidden" name="roomIdToAddReview" th:value="${room.id}">
+        <input type="hidden" name="userNameToAddReview" th:value="${authentication.name}">
+        <button type="submit" class="default-btn">Отправить отзыв</button>
+    </form>
+</div>
+<ul th:if="${not reviews.content.isEmpty()}" class="review-list">
+    <li th:each="review : ${reviews.content}">
+        <div class="review">
+            <div class="review-image">
+                <img th:src="@{'/photos/64572.png'}" width="150" height="150">
+            </div>
+            <div class="review-details">
+                <span th:text="${review.userEntity.login}"></span>
+                <textarea readonly th:text="${review.text}" maxlength="250"></textarea>
+                <div style="display: flex">
+                    <p><span th:text="${review.rating}"></span>&#9733;</p>
+                    <p th:text="${review.datePost}" style="margin-left: auto">xkty</p>
+                </div>
+
+            </div>
+        </div>
+    </li>
+</ul>
+
+<div th:if="${reviews.totalPages > 1}">
+    <ul class="pagination">
+        <li th:class="${reviews.number == 0} ? 'disabled'">
+            <a th:if="${reviews.number != 0}" th:href="@{'/post?roomId=' + ${room.id} + '&page=' + ${reviews.number - 1}}">
+                <span class="arrow-circle">&laquo;</span>
+            </a>
+        </li>
+
+        <li th:class="${reviews.number == 0} ? 'disabled'">
+            <a th:if="${reviews.number != reviews.totalPages - 1}" th:href="@{'/post?roomId=' + ${room.id} + '&page=' + ${reviews.number + 1}}">
+                <span class="arrow-circle">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
 <script>
     let currentIndex = 0;
     const slider = document.querySelector('.slider');

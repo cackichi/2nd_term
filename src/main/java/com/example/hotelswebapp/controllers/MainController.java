@@ -4,6 +4,7 @@ import com.example.hotelswebapp.entity.HotelRoomEntity;
 import com.example.hotelswebapp.entity.Reservation;
 import com.example.hotelswebapp.services.HotelRoomService;
 import com.example.hotelswebapp.services.ReservationService;
+import com.example.hotelswebapp.services.ReviewOfRoomService;
 import com.example.hotelswebapp.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
@@ -22,21 +23,25 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 public class MainController {
-    UserService userService;
-    HotelRoomService hotelRoomService;
-    ReservationService reservationService;
+    private final UserService userService;
+    private final HotelRoomService hotelRoomService;
+    private final ReservationService reservationService;
+    private final ReviewOfRoomService reviewOfRoomService;
 
     @GetMapping("/")
-    public String mainPage(Model model, @PageableDefault(size = 3) Pageable pageable, @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+    public String mainPage(Model model, @PageableDefault(size = 3) Pageable pageable,
+                           @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
         pageable = PageRequest.of(page, pageable.getPageSize());
         Page<HotelRoomEntity> rooms = hotelRoomService.pageOfRooms(pageable);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("averageRatings", reviewOfRoomService.getAverageOfAllRooms(rooms));
         userService.addUserInfo(model);
         return "main";
     }
 
+
     @GetMapping("/search")
-    public String search(Model model, @PageableDefault(size = 10) Pageable pageable,
+    public String search(Model model, @PageableDefault Pageable pageable,
                          @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                          @RequestParam(name = "roomName", required = false, defaultValue = " ") String roomName,
                          @RequestParam(name = "checkInDate", required = false) LocalDate checkInDate,
@@ -103,6 +108,7 @@ public class MainController {
             }
         }
         Page<HotelRoomEntity> result = new PageImpl<>(searchResultList);
+        model.addAttribute("averageRatings", reviewOfRoomService.getAverageOfAllRooms(result));
         model.addAttribute("isEmpty", result.getContent().isEmpty());
         model.addAttribute("result", result);
         return "search_results";

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @AllArgsConstructor
 public class AuthController {
-    UserService userService;
+    private final UserService userService;
 
     @GetMapping("/login")
     public String login(Model model) {

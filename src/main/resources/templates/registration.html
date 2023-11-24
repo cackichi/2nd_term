@@ -22,17 +22,16 @@
             <h1>Регистрация</h1>
 
             <div class="form-floating">
-                <input type="text" th:field="*{login}" class="form-control" id="login" placeholder="Логин">
+                <input type="text" th:field="*{login}" id="login" placeholder="Логин">
             </div>
             <div class="form-floating">
-                <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Почта">
+                <input type="email" th:field="*{email}" id="email" placeholder="Почта">
             </div>
             <div class="form-floating">
-                <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Пароль">
+                <input type="password" th:field="*{password}"id="password" placeholder="Пароль">
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="repeatPassword" name="repeatPassword"
-                       placeholder="Повторение пароля">
+                <input type="password" id="repeatPassword" name="repeatPassword" placeholder="Повторение пароля">
             </div>
             <button class="sign-btn" type="submit">Зарегистрироваться
             </button>

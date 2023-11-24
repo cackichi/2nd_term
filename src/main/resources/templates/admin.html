@@ -7,7 +7,6 @@
 </head>
 <body>
 <header th:insert="~{blocks/header :: header}"></header>
-
 <section>
     <h1 class="welcome">Добро пожаловать в панель администратора</h1>
     <h2 class="admin">Список всех существующих пользователей:</h2>
@@ -62,7 +61,7 @@
         <tr th:each="room : ${rooms}">
             <td th:text="${room.id}">1</td>
             <td th:text="${room.name}">name</td>
-            <td><a th:href="@{'/post/' + ${room.id}}">Ссылка</a></td>
+            <td><a th:href="@{'/post?roomId=' + ${room.id}}">Ссылка</a></td>
             <td th:text="${room.userEntity.id}"></td>
             <td>
                 <form th:action="@{/admin/delete-room}" method="post">
@@ -104,6 +103,37 @@
                 <form th:action="@{/admin/delete-reservation}" method="post">
                     <input type="hidden" name="reservationIdForDelete" th:value="${reservation.id}">
                     <button class="default-btn" type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID отзыва</th>
+            <th>Название номера</th>
+            <th>Ссылка на номер</th>
+            <th>ID написавшего</th>
+            <th>Текст</th>
+            <th>Оценка</th>
+            <th>Дата создания</th>
+            <th>Удаление</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review : ${reviews}">
+            <td th:text="${review.id}">1</td>
+            <td th:text="${review.hotelRoomEntity.name}">name</td>
+            <td><a th:href="@{'/post/' + ${review.hotelRoomEntity.id}}">Ссылка</a></td>
+            <td th:text="${review.userEntity.id}"></td>
+            <td class="admin-review"><textarea th:text="${review.text}" required readonly></textarea></td>
+            <td><p th:text="${review.rating}"></p>&#9733;</td>
+            <td th:text="${review.datePost}"></td>
+            <td>
+                <form th:action="@{/delete-review-admin}" th:method="post">
+                    <input type="hidden" name="reviewIdToDelete" th:value="${review.id}">
+                    <button class="default-btn profile-item">Удалить отзыв</button>
                 </form>
             </td>
         </tr>

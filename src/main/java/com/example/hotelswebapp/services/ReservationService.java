@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ReservationService {
-    ReservationRepo reservationRepo;
+    private final ReservationRepo reservationRepo;
     public List<Reservation> findByUserId(int id){
         return reservationRepo.findByUserEntityId(id);
     }

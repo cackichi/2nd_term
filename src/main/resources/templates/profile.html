@@ -7,53 +7,78 @@
 </head>
 <body>
 <header th:insert="~{blocks/header :: header}"></header>
-<div class="profile-info">
-    <div style="display: flex">
-        <img th:src="@{'/photos/64572.png'}" width="150" height="150">
-        <div>
-            <div class="profile-item">
-                <strong>Имя:</strong>
-                <span th:text="${userEntity.getLogin()}">Имя пользователя</span>
-            </div>
-            <div class="profile-item">
-                <strong>Электронная почта:</strong>
-                <span th:text="${userEntity.getEmail()}">user@example.com</span>
-            </div>
-            <div class="profile-item">
-                <strong>Роль:</strong>
-                <span th:text="${userEntity.getRole()}">Пользователь</span>
+<div class="profile">
+    <div class="profile-info">
+        <div class="created-room">
+            <img th:src="@{'/photos/64572.png'}" width="150" height="150">
+            <div>
+                <div class="profile-item">
+                    <strong>Имя:</strong>
+                    <span th:text="${userEntity.getLogin()}">Имя пользователя</span>
+                </div>
+                <div class="profile-item">
+                    <strong>Электронная почта:</strong>
+                    <span th:text="${userEntity.getEmail()}">user@example.com</span>
+                </div>
+                <div class="profile-item">
+                    <strong>Роль:</strong>
+                    <span th:text="${userEntity.getRole()}">Пользователь</span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="room-info" th:if="${not userEntity.getHotelRoomEntities().isEmpty()}">
-        <h4>Список номеров отеля, созданных пользователем</h4>
-        <ul>
-            <li class="created-room" th:each="room : ${userEntity.getHotelRoomEntities()}">
-                <p th:text="${'id комнаты: ' + room.getId() + ' название: ' + room.getName()}"></p>
-                <form th:action="@{/delete-room}" th:method="post">
-                    <input type="hidden" name="roomIdForDelete" th:value="${room.id}">
-                    <button class="default-btn" type="submit">Удалить</button>
-                </form>
-                <form th:action="@{/edit-room}" th:method="get">
-                    <input type="hidden" name="roomIdForEdit" th:value="${room.id}">
-                    <button class="default-btn" type="submit">Редактировать</button>
-                </form>
-            </li>
-        </ul>
-    </div>
-    <div class="reservation-info" th:if="${not userEntity.getReservations().isEmpty()}">
-        <h4>Список бронирований номеров, пользователем</h4>
-        <ul>
-            <li class="reservations" th:each="reservation : ${userEntity.getReservations()}">
-                <p th:text="${'id комнаты: ' + reservation.getHotelRoomEntity().getId() + ' название: ' + reservation.getHotelRoomEntity().getName()}"></p>
-                <p class="since" th:text="${'С ' + reservation.dateOfReservation + ' по ' + reservation.dateOfEviction}"></p>
-                <form th:action="@{/delete-reservation}" th:method="post">
-                    <input type="hidden" name="reservationIdForDelete" th:value="${reservation.id}">
-                    <button class="default-btn" type="submit">Удалить</button>
-                </form>
-            </li>
-        </ul>
-        <h4 class="fullPrice" th:text="${'Нужно оплатить - ' + fullPrice + '$'}"></h4>
+        <h4 th:if="${not userEntity.getHotelRoomEntities().isEmpty()}">Список номеров отеля, созданных пользователем</h4>
+        <div class="room-info" th:if="${not userEntity.getHotelRoomEntities().isEmpty()}">
+            <ul>
+                <li class="created-room" th:each="room : ${userEntity.getHotelRoomEntities()}">
+                    <p th:text="${'id комнаты: ' + room.getId() + ' название: ' + room.getName()}"></p>
+                    <form th:action="@{/delete-room}" th:method="post">
+                        <input type="hidden" name="roomIdForDelete" th:value="${room.id}">
+                        <button class="default-btn" type="submit">Удалить</button>
+                    </form>
+                    <form th:action="@{/edit-room}" th:method="get">
+                        <input type="hidden" name="roomIdForEdit" th:value="${room.id}">
+                        <button class="default-btn" type="submit">Редактировать</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <h4 th:if="${not userEntity.getReservations().isEmpty()}">Список бронирований номеров, пользователем</h4>
+        <div class="room-info" th:if="${not userEntity.getReservations().isEmpty()}">
+            <ul>
+                <li class="reservations" th:each="reservation : ${userEntity.getReservations()}">
+                    <p th:text="${'id комнаты: ' + reservation.getHotelRoomEntity().getId() + ' название: ' + reservation.getHotelRoomEntity().getName()}"></p>
+                    <p class="since" th:text="${'С ' + reservation.dateOfReservation + ' по ' + reservation.dateOfEviction}"></p>
+                    <form th:action="@{/delete-reservation}" th:method="post">
+                        <input type="hidden" name="reservationIdForDelete" th:value="${reservation.id}">
+                        <button class="default-btn" type="submit">Удалить</button>
+                    </form>
+                </li>
+            </ul>
+            <h4 class="fullPrice" th:text="${'Нужно оплатить - ' + fullPrice + '$'}"></h4>
+        </div>
+        <h4 th:if="${not reviews.isEmpty()}">Список всех ваших отзывов</h4>
+        <div class="room-info">
+            <ul>
+                <li class="reservations" th:each="review : ${reviews}">
+                    <form th:action="@{/edit-review}" th:method="post">
+                        <p th:text="${'id комнаты: ' + review.getHotelRoomEntity().getId() + ' название: ' + review.getHotelRoomEntity().getName()}"></p>
+                        <p>Текст отзыва: <textarea name="changedTextOfReview" th:text="${review.getText()}" required></textarea></p>
+                        <div style="display: flex">
+                            <p>Оценка:
+                            <input name="changedRatingOfReview" type="number" th:value="${review.getRating()}" required min="1" max="5">
+                            &#9733;</p>
+                            <p style="margin-left: auto" th:text="${review.datePost}">дата</p>
+                        </div>
+                        <input type="hidden" name="reviewIdForEdit" th:value="${review.id}">
+                        <button class="default-btn">Сохранить измения</button>
+                    </form>
+                    <form th:action="@{/delete-review}" th:method="post">
+                        <input type="hidden" name="reviewIdToDelete" th:value="${review.id}">
+                        <button class="default-btn profile-item">Удалить отзыв</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <footer th:insert="~{blocks/footer :: footer}"></footer>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ReservationCleanUpRunner implements CommandLineRunner {
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
 
     @Override
     public void run(String... args) throws Exception {

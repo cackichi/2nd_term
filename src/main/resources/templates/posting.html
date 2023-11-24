@@ -5,7 +5,7 @@
   <title>Добавление объявления</title>
   <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
 </head>
-<header th:insert="~{blocks/header :: header}" style="margin-bottom: 50px"></header>
+<header th:insert="~{blocks/header :: header}" class="form-header"></header>
 <body>
 <div class="centered">
   <div th:if="${errorOfSpaceInServices}" class="alert-danger">
@@ -27,30 +27,24 @@
       <form th:method="post" th:action="@{/posting}" th:object="${hotelRoomEntity}" enctype="multipart/form-data">
         <fieldset>
           <legend>Добавление объявления</legend>
-          <div class="form-group">
             <label for="title">Название номера:</label>
-            <input type="text" th:field="*{name}" id="title" name="title" class="form-control" required placeholder="Введите название номера (тип)">
-          </div>
-          <div class="form-group">
+            <input type="text" th:field="*{name}" id="title" name="title" required placeholder="Введите название номера (тип)">
+
             <label for="services">Услуги (разделяйте запятыми без пробелов):</label>
-            <input type="text" id="services" name="services" class="form-control" required placeholder="Введите услуги">
-          </div>
-          <div class="form-group">
+            <input type="text" id="services" name="services" required placeholder="Введите услуги">
+
             <label for="price">Цена за день (в $):</label>
-            <input type="number" th:field="*{pricePerDay}" id="price" name="price" class="form-control" placeholder="Введите цену">
-          </div>
-          <div class="form-group">
+            <input type="number" th:field="*{pricePerDay}" id="price" name="price" placeholder="Введите цену">
+
             <label for="amountOfSleepers">Количество спальных мест:</label>
-            <input type="number" th:field="*{amountOfSleepers}" id="amountOfSleepers" name="amountOfSleepers" class="form-control" placeholder="Введите количество спальных мест">
-          </div>
-          <div class="form-group">
+            <input type="number" th:field="*{amountOfSleepers}" id="amountOfSleepers" name="amountOfSleepers" placeholder="Введите количество спальных мест">
+
             <label for="images">Изображение:</label>
             <input type="file" id="images" name="images" accept="image/*" multiple required>
-          </div>
-          <div class="form-group">
+
             <label for="description">Описание:</label>
-            <textarea th:field="*{description}" id="description" name="description" class="form-control" required placeholder="Введите описание номера"></textarea>
-          </div>
+            <textarea th:field="*{description}" id="description" name="description" required placeholder="Введите описание номера"></textarea>
+
         </fieldset>
           <button type="submit" class="sign-btn">Добавить объявление</button>
       </form>
@@ -61,5 +55,5 @@
 <div>
 
 </div>
-<footer th:insert="~{blocks/footer :: footer}" style="margin-top: 100px"></footer>
+<footer th:insert="~{blocks/footer :: footer}" class="form-footer"></footer>
 </html>

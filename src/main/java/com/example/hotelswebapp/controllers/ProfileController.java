@@ -1,9 +1,11 @@
 package com.example.hotelswebapp.controllers;
 
 import com.example.hotelswebapp.entity.HotelRoomEntity;
+import com.example.hotelswebapp.entity.ReviewOfRoom;
 import com.example.hotelswebapp.entity.UserEntity;
 import com.example.hotelswebapp.services.HotelRoomService;
 import com.example.hotelswebapp.services.ReservationService;
+import com.example.hotelswebapp.services.ReviewOfRoomService;
 import com.example.hotelswebapp.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -23,16 +25,19 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 public class ProfileController {
-    HotelRoomService hotelRoomService;
-    ReservationService reservationService;
-    UserService userService;
+    private final HotelRoomService hotelRoomService;
+    private final ReservationService reservationService;
+    private final UserService userService;
+    private final ReviewOfRoomService reviewOfRoomService;
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
         userService.addUserInfo(model);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userService.getAuthUser(auth.getName());
+        List<ReviewOfRoom> reviewOfRooms = user.getReviewOfRooms();
         int fullPrice = hotelRoomService.getFullPriceForUser(user.getId());
+        model.addAttribute("reviews", reviewOfRooms);
         model.addAttribute("userEntity", user);
         model.addAttribute("fullPrice", fullPrice);
         return "profile";
@@ -56,6 +61,23 @@ public class ProfileController {
     @PostMapping("/delete-reservation")
     public String deleteReservationUser(@RequestParam("reservationIdForDelete") int id) {
         reservationService.delete(id);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/delete-review")
+    public String deleteReview(@RequestParam("reviewIdToDelete") int id){
+        reviewOfRoomService.deleteReview(id);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/edit-review")
+    public String editReview(@RequestParam("reviewIdForEdit") int id,
+                             @RequestParam("changedRatingOfReview") double rating,
+                             @RequestParam("changedTextOfReview") String text){
+        ReviewOfRoom reviewOfRoom = reviewOfRoomService.findById(id);
+        reviewOfRoom.setText(text);
+        reviewOfRoom.setRating(rating);
+        reviewOfRoomService.saveReview(reviewOfRoom);
         return "redirect:/profile";
     }
 

@@ -5,7 +5,6 @@ import com.example.hotelswebapp.entity.HotelRoomEntity;
 import com.example.hotelswebapp.entity.UserEntity;
 import com.example.hotelswebapp.exception.UsernameAlreadyExistsException;
 import com.example.hotelswebapp.repos.UserRepo;
-import com.example.hotelswebapp.security.UserDetailsServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -22,21 +21,28 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
-    UserDetailsServiceImpl userDetailsService;
-    UserRepo userRepo;
-    HotelRoomService hotelRoomService;
+    private final UserRepo userRepo;
+    private final HotelRoomService hotelRoomService;
+
+    public Optional<UserEntity> findByLogin(String login){
+        return userRepo.findByLogin(login);
+    }
 
     private BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
     public void saveUser(UserEntity userEntity) throws UsernameAlreadyExistsException {
-        if (userDetailsService.isUsernameUnique(userEntity.getLogin())) {
+        if (isUsernameUnique(userEntity.getLogin())) {
             userEntity.setPassword(encoder().encode(userEntity.getPassword()));
             userRepo.save(userEntity);
         } else {
             throw new UsernameAlreadyExistsException("Такой логин уже существует");
         }
+    }
+
+    public boolean isUsernameUnique(String username) {
+        return !userRepo.findByLogin(username).isPresent();
     }
 
     public UserEntity getAuthUser(String login){

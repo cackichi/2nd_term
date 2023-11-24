@@ -23,12 +23,16 @@
     </form>
     <h2 class="admin">Результат поиска:</h2>
     <ul class="room-list" id="roomList">
-      <li th:each="room : ${result.content}" th:data-byPrice="${room.pricePerDay}" th:data-bySleepers="${room.amountOfSleepers}" th:data-byAlphabet="${room.name}">
-        <a th:href="@{'/post/' + ${room.id}}" class="room-link">
+      <li th:each="room, indx : ${result.content}" th:data-byPrice="${room.pricePerDay}" th:data-bySleepers="${room.amountOfSleepers}" th:data-byAlphabet="${room.name}">
+        <a th:href="@{'/post?roomId=' + ${room.id}}" class="room-link">
           <div class="room">
             <img th:src="@{'/photos/' + ${room.photos.get(0)} + '?rand=' + ${randomValue}}" alt="Изображение номера" width="150" height="150">
             <div class="room-details">
-              <h2>Название номера: <span th:text="${room.name}"></span></h2>
+              <h2>
+                Название номера:
+                <span th:text="${room.name + ' ' + averageRatings[indx.index]}"></span>
+                <span>&#9733;</span>
+              </h2>
               <p>Спальных мест: <span th:text="${room.amountOfSleepers}"></span></p>
               <p>Услуги:
               <ul>
@@ -47,13 +51,13 @@
     <div th:if="${result.totalPages > 1}">
       <ul class="pagination">
         <li th:class="${result.number == 0} ? 'disabled'">
-          <a th:if="${result.number != 0}" th:href="@{'/?page=' + ${result.number - 1}}">
+          <a th:if="${result.number != 0}" th:href="@{'/search?page=' + ${result.number - 1}}">
             <span class="arrow-circle">&laquo;</span>
           </a>
         </li>
 
         <li th:class="${result.number == 0} ? 'disabled'">
-          <a th:if="${result.number != result.totalPages - 1}" th:href="@{'/?page=' + ${result.number + 1}}">
+          <a th:if="${result.number != result.totalPages - 1}" th:href="@{'/search?page=' + ${result.number + 1}}">
             <span class="arrow-circle">&raquo;</span>
           </a>
         </li>

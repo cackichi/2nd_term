@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Hotel</title>
     <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
-
 </head>
 <body>
 <header th:insert="~{blocks/header :: header}"></header>
@@ -20,11 +19,10 @@
                 <h1>Авторизация</h1>
 
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingLogin" name="username" placeholder="Логин">
+                    <input type="text" id="floatingLogin" name="username" placeholder="Логин">
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" name="password"
-                           placeholder="Пароль">
+                    <input type="password" id="floatingPassword" name="password" placeholder="Пароль">
                 </div>
                 <button class="sign-btn" type="submit">Войти</button>
             </form>

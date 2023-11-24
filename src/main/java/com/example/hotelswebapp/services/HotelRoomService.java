@@ -25,8 +25,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class HotelRoomService {
-    HotelRoomRepo hotelRoomRepo;
-    ReservationService reservationService;
+    private final HotelRoomRepo hotelRoomRepo;
+    private final ReservationService reservationService;
     private final String PHOTOS_PATH = "E:\\HotelsWebApp\\src\\main\\resources\\static\\photos";
     public HotelRoomEntity findRoomById(int id) {
         return hotelRoomRepo.findById(id);

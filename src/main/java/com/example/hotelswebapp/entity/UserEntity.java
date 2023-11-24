@@ -27,4 +27,6 @@ public class UserEntity {
     private List<Reservation> reservations;
     @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.ALL, CascadeType.REMOVE}, orphanRemoval = true)
     private List<HotelRoomEntity> hotelRoomEntities;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<ReviewOfRoom> reviewOfRooms;
 }

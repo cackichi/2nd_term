@@ -32,4 +32,6 @@ public class HotelRoomEntity {
     private UserEntity userEntity;
     @OneToMany(mappedBy = "hotelRoomEntity", cascade = CascadeType.REMOVE)
     private List<Reservation> reservations = new ArrayList<>();
+    @OneToMany(mappedBy = "hotelRoomEntity", cascade = CascadeType.REMOVE)
+    private List<ReviewOfRoom> reviewOfRooms = new ArrayList<>();
 }
