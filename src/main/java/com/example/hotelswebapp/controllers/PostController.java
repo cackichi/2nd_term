@@ -50,7 +50,7 @@ public class PostController {
         UserEntity userEntity = userService.getAuthUser(auth.getName());
         List<String> photos = new ArrayList<>();
         List<String> serviceList = List.of(services.split(","));
-        String check = hotelRoomService.checkPosting(serviceList, model, hotelRoomEntity);
+        String check = hotelRoomService.checkPosting(serviceList, model);
         if (!check.equals("1")) return check;
         hotelRoomEntity.setServices(serviceList);
         hotelRoomEntity.setPhotos(hotelRoomService.uploadPhoto(files,photos));

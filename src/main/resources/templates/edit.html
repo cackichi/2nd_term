@@ -7,19 +7,15 @@
 </head>
 <body>
 <header th:insert="~{blocks/header :: header}"></header>
+<div class="centered">
+    <div th:if="${errorOfSpaceInServices}" class="alert alert-danger">
+        <p th:text="${errorOfSpaceInServices}"></p>
+    </div>
+    <div th:if="${photoError}" class="alert alert-danger">
+        <p th:text="${photoError}"></p>
+    </div>
+</div>
 
-<div th:if="${errorOfSpaceInServices}" class="alert alert-danger">
-    <p th:text="${errorOfSpaceInServices}"></p>
-</div>
-<div th:if="${errorOfEmptyPrice}" class="alert alert-danger">
-    <p th:text="${errorOfEmptyPrice}"></p>
-</div>
-<div th:if="${errorOfEmptySleepers}" class="alert alert-danger">
-    <p th:text="${errorOfEmptySleepers}"></p>
-</div>
-<div th:if="${errorOfMaxSleepers}" class="alert alert-danger">
-    <p th:text="${errorOfMaxSleepers}"></p>
-</div>
 <div class="container">
     <div class="row">
         <div class="filter">
@@ -30,13 +26,13 @@
                         <input type="text" th:field="*{name}" id="title" name="title" class="form-control large-input" required placeholder="Введите название номера">
 
                         <label for="services">Услуги (разделяйте запятыми без пробелов):</label>
-                        <input type="text" th:value="${total_services}" id="services" name="services" class="form-control large-input" placeholder="Туалет,Душ">
+                        <input type="text" th:value="${total_services}" id="services" name="services" class="form-control large-input" required placeholder="Туалет,Душ">
 
                         <label for="price">Цена за день (в $):</label>
-                        <input type="number" th:field="*{pricePerDay}" id="price" name="price" class="form-control large-input" placeholder="Введите цену">
+                        <input type="number" th:field="*{pricePerDay}" id="price" name="price" class="form-control large-input" required placeholder="Введите цену">
 
                         <label for="amountOfSleepers">Количество спальных мест:</label>
-                        <input type="number" th:field="*{amountOfSleepers}" id="amountOfSleepers" name="amountOfSleepers" class="form-control large-input" placeholder="Укажите количество мест">
+                        <input type="number" th:field="*{amountOfSleepers}" id="amountOfSleepers" name="amountOfSleepers" class="form-control large-input" required max="4" min="1" placeholder="Укажите количество мест">
 
                         <label for="description">Описание:</label>
                         <textarea th:field="*{description}" id="description" name="description" class="form-control" required placeholder="Введите описание номера"></textarea>

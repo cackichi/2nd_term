@@ -18,6 +18,7 @@
         </div>
     </div>
     <body>
+    <div class="review">
     <div class="container">
         <div class="row">
             <div class="filter">
@@ -57,7 +58,8 @@
             </div>
         </div>
     </div>
-        <h1 th:if="${not rooms.isEmpty()}" class="list-of-rooms" style="margin-left: 325px">Список номеров</h1>
+        <div class="links">
+        <h1 th:if="${not rooms.isEmpty()}" class="list-of-rooms" >Список номеров</h1>
         <ul class="room-list">
             <li th:each="room, indx : ${rooms.content}">
                 <a th:href="@{'/post?roomId=' + ${room.id}}" class="room-link">
@@ -98,6 +100,8 @@
                 </a>
             </li>
         </ul>
+    </div>
+    </div>
     </div>
 
     <footer th:insert="~{blocks/footer :: footer}"></footer>

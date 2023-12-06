@@ -35,7 +35,7 @@
                 <button id="nextSlide" class="slider-button">&raquo;</button>
             </div>
         </div>
-    <div class="room-details">
+    <div class="room-details details">
         <p>Спальных мест: <span th:text="${room.amountOfSleepers}"></span></p>
         <p>Услуги:
             <ul>
@@ -63,7 +63,7 @@
         <p th:text="${room.description}"></p>
     </div>
 </div>
-<h1 class="list-of-rooms description" >Оставьте свой отзыв</h1>
+<h1 class="description" >Оставьте свой отзыв</h1>
 <div class="review-input">
     <form class="reviewForm" th:action="@{/add-review}" th:method="post">
         <label for="reviewText">Отзыв:</label>
@@ -81,7 +81,7 @@
     <li th:each="review : ${reviews.content}">
         <div class="review">
             <div class="review-image">
-                <img th:src="@{'/photos/64572.png'}" width="150" height="150">
+                <img th:src="@{'/photos/149452.png'}" width="150" height="150">
             </div>
             <div class="review-details">
                 <span th:text="${review.userEntity.login}"></span>

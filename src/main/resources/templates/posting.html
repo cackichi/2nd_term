@@ -11,15 +11,6 @@
   <div th:if="${errorOfSpaceInServices}" class="alert-danger">
     <p th:text="${errorOfSpaceInServices}"></p>
   </div>
-  <div th:if="${errorOfEmptyPrice}" class="alert-danger">
-    <p th:text="${errorOfEmptyPrice}"></p>
-  </div>
-  <div th:if="${errorOfEmptySleepers}" class="alert-danger">
-    <p th:text="${errorOfEmptySleepers}"></p>
-  </div>
-  <div th:if="${errorOfMaxSleepers}" class="alert-danger">
-    <p th:text="${errorOfMaxSleepers}"></p>
-  </div>
 </div>
 <div class="container">
   <div class="row-posting">
@@ -34,10 +25,10 @@
             <input type="text" id="services" name="services" required placeholder="Введите услуги">
 
             <label for="price">Цена за день (в $):</label>
-            <input type="number" th:field="*{pricePerDay}" id="price" name="price" placeholder="Введите цену">
+            <input type="number" th:field="*{pricePerDay}" id="price" name="price" required placeholder="Введите цену">
 
             <label for="amountOfSleepers">Количество спальных мест:</label>
-            <input type="number" th:field="*{amountOfSleepers}" id="amountOfSleepers" name="amountOfSleepers" placeholder="Введите количество спальных мест">
+            <input type="number" th:field="*{amountOfSleepers}" id="amountOfSleepers" name="amountOfSleepers" min="1" max="4" required placeholder="Введите количество спальных мест">
 
             <label for="images">Изображение:</label>
             <input type="file" id="images" name="images" accept="image/*" multiple required>

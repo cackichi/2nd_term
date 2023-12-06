@@ -8,13 +8,17 @@ input, textarea, select, button {
     font-family: 'Oswald', sans-serif;
 }
 
+h1, h2, h3, h4 {
+
+}
+
 textarea{
     resize: none;
 }
 
 body {
     font-family:'Oswald', sans-serif;
-    background: #a4795c;
+    background: #80654c;
 }
 
 /* Стили для хеддера и футера */
@@ -162,7 +166,7 @@ footer p {
 }
 
 .room-list{
-    display: flex;
+    display: initial;
     flex-wrap: wrap;
     max-width: 900px;
     justify-content: center;
@@ -179,6 +183,14 @@ footer p {
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
     border-radius: 10px;
     margin: 10px;
+    height: 300px;
+    overflow: hidden;
+}
+.room-search{
+    justify-content: center;
+    max-width: 900px;
+    height: 320px;
+    margin: 10px auto auto auto;
 }
 
 img {
@@ -270,7 +282,7 @@ img {
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
-    background: rgb(164, 121, 92);
+    background: #80654c;
 }
 .filter textarea{
     width: 100%;
@@ -302,7 +314,7 @@ img {
     margin-bottom: 10px;
 }
 .list-of-rooms{
-    margin-top: 75px;
+    margin-left: 400px;
 }
 h1{
     color: #ffffff;
@@ -314,12 +326,14 @@ h1{
     width: 150px;
     height: 150px;
 }
-.room-details-main{
+.room-details-main {
     font-weight: normal;
     margin-left: 25px;
     border: 1px solid;
     border-radius: 10px;
     padding: 0 20px 0 20px;
+    max-height: 300px; /* Задайте максимальную высоту для текста */
+    overflow: hidden; /* Обрезать текст, если он выходит за пределы блока */
 }
 .table {
     border-collapse: collapse;
@@ -375,7 +389,7 @@ h1{
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
-    background: rgb(164, 121, 92);
+    background: #80654c;
 }
 .services{
     display: inline-block;
@@ -531,12 +545,15 @@ h4.fullPrice {
     text-align: center;
 }
 
+.details{
+    margin-top: 20px;
+}
+
 .room-details{
     font-weight: normal;
     margin-left: 20px;
     border: 1px solid;
     border-radius: 10px;
-    margin-top: 20px;
     padding: 0 20px 0 20px;
 }
 
@@ -660,4 +677,8 @@ h4.fullPrice {
     border-radius: 10px;
     outline: none;
     background: transparent;
+}
+.links{
+    justify-content: right;
+    margin: 10px auto auto auto;
 }

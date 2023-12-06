@@ -25,7 +25,7 @@
     <ul class="room-list" id="roomList">
       <li th:each="room, indx : ${result.content}" th:data-byPrice="${room.pricePerDay}" th:data-bySleepers="${room.amountOfSleepers}" th:data-byAlphabet="${room.name}">
         <a th:href="@{'/post?roomId=' + ${room.id}}" class="room-link">
-          <div class="room">
+          <div class="room-search room">
             <img th:src="@{'/photos/' + ${room.photos.get(0)} + '?rand=' + ${randomValue}}" alt="Изображение номера" width="150" height="150">
             <div class="room-details">
               <h2>

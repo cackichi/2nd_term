@@ -28,11 +28,12 @@ public class HotelRoomService {
     private final HotelRoomRepo hotelRoomRepo;
     private final ReservationService reservationService;
     private final String PHOTOS_PATH = "E:\\HotelsWebApp\\src\\main\\resources\\static\\photos";
+
     public HotelRoomEntity findRoomById(int id) {
         return hotelRoomRepo.findById(id);
     }
 
-    public List<String> uploadPhoto(MultipartFile[] files, List<String> photos){
+    public List<String> uploadPhoto(MultipartFile[] files, List<String> photos) {
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 try {
@@ -42,7 +43,6 @@ public class HotelRoomService {
                     photos.add(fileName);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    // Обработка ошибки загрузки файла!!!!!!!!!!
                 }
             }
         }
@@ -61,6 +61,7 @@ public class HotelRoomService {
         }
         return fullPrice;
     }
+
     @Transactional
     public void saveHotelRoom(HotelRoomEntity hotelRoomEntity) {
         hotelRoomRepo.save(hotelRoomEntity);
@@ -69,12 +70,13 @@ public class HotelRoomService {
     public List<HotelRoomEntity> findAllRooms() {
         return hotelRoomRepo.findAll();
     }
+
     @Transactional
     public void deleteRoomById(int id) {
         List<String> photosToDelete = hotelRoomRepo.findPhotosById(id);
         hotelRoomRepo.deleteById(id);
         for (String photo : photosToDelete) {
-            Path path = Paths.get(PHOTOS_PATH, photo);
+            Path path = Paths.get(PHOTOS_PATH + "\\", photo);
             try {
                 Files.delete(path);
             } catch (IOException e) {
@@ -83,23 +85,23 @@ public class HotelRoomService {
             }
         }
     }
+
     @Transactional
     public void deletePhotoFromRoom(String photo, int roomId) {
         HotelRoomEntity room = hotelRoomRepo.findById(roomId);
         if (room != null) {
             List<String> photos = room.getPhotos();
             if (photos != null) {
-                    if (photos.remove(photo)) {
-                        hotelRoomRepo.save(room);
-
-                        // Удалите фотографию из файловой системы
-                        Path path = Paths.get(PHOTOS_PATH, photo);
-                        try {
-                            Files.delete(path);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+                if (photos.remove(photo)) {
+                    room.setPhotos(photos);
+                    hotelRoomRepo.save(room);
+                    Path path = Paths.get(PHOTOS_PATH, photo);
+                    try {
+                        Files.delete(path);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
+                }
             }
         }
     }
@@ -108,24 +110,12 @@ public class HotelRoomService {
         return hotelRoomRepo.findAll(pageable);
     }
 
-    public String checkPosting(List<String> serviceList, Model model, HotelRoomEntity hotelRoomEntity) {
+    public String checkPosting(List<String> serviceList, Model model) {
         for (String service : serviceList) {
             if (service.contains(", ") || service.contains(" ,")) {
                 model.addAttribute("errorOfSpaceInServices", "Введите названия услуг через запятую без пробелов");
                 return "posting";
             }
-        }
-        if (hotelRoomEntity.getPricePerDay() == 0) {
-            model.addAttribute("errorOfEmptyPrice", "Укажите цену");
-            return "posting";
-        }
-        if (hotelRoomEntity.getAmountOfSleepers() == 0) {
-            model.addAttribute("errorOfEmptySleepers", "Укажите количество спальных мест");
-            return "posting";
-        }
-        if (hotelRoomEntity.getAmountOfSleepers() > 4) {
-            model.addAttribute("errorOfMaxSleepers", "Максимальное количество спальных мест - 4");
-            return "posting";
         }
         return "1";
     }

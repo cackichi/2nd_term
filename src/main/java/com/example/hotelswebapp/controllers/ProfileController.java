@@ -54,7 +54,11 @@ public class ProfileController {
                                @RequestParam("photoToDelete") String photo,
                                RedirectAttributes redirectAttributes){
         redirectAttributes.addAttribute("roomIdForEdit",id);
-        hotelRoomService.deletePhotoFromRoom(photo, id);
+        if(hotelRoomService.findRoomById(id).getPhotos().size() > 1) {
+            hotelRoomService.deletePhotoFromRoom(photo, id);
+        } else {
+            redirectAttributes.addFlashAttribute("photoError","Прежде чем удалить последнее фото,\nдобавьте еще одно");
+        }
         return "redirect:/edit-room";
     }
 
@@ -115,7 +119,7 @@ public class ProfileController {
         HotelRoomEntity editRoom = hotelRoomService.findRoomById(id);
         List<String> photos = editRoom.getPhotos();
         List<String> serviceList = List.of(services.split(","));
-        String check = hotelRoomService.checkPosting(serviceList, model, room);
+        String check = hotelRoomService.checkPosting(serviceList, model);
         if (!check.equals("1")) return check;
         room.setServices(serviceList);
         room.setPhotos(hotelRoomService.uploadPhoto(files,photos));

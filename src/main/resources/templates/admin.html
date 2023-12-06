@@ -108,13 +108,14 @@
         </tr>
         </tbody>
     </table>
+    <h2 class="admin">Список всех существующих отзывов:</h2>
     <table class="table">
         <thead>
         <tr>
             <th>ID отзыва</th>
             <th>Название номера</th>
             <th>Ссылка на номер</th>
-            <th>ID написавшего</th>
+            <th>Написавший</th>
             <th>Текст</th>
             <th>Оценка</th>
             <th>Дата создания</th>
@@ -126,7 +127,7 @@
             <td th:text="${review.id}">1</td>
             <td th:text="${review.hotelRoomEntity.name}">name</td>
             <td><a th:href="@{'/post/' + ${review.hotelRoomEntity.id}}">Ссылка</a></td>
-            <td th:text="${review.userEntity.id}"></td>
+            <td th:text="${review.userEntity.login}"></td>
             <td class="admin-review"><textarea th:text="${review.text}" required readonly></textarea></td>
             <td><p th:text="${review.rating}"></p>&#9733;</td>
             <td th:text="${review.datePost}"></td>
