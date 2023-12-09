@@ -39,7 +39,6 @@ public class AuthController {
     @GetMapping("/reg")
     public String reg(Model model) {
         userService.addUserInfo(model);
-
         model.addAttribute("userEntity", new UserEntity());
         return "registration";
     }

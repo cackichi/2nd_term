@@ -176,13 +176,15 @@ footer p {
 }
 
 .room {
+    max-width: 900px;
     display: flex;
     padding: 10px;
     background: #c1bcb0;
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
     border-radius: 10px;
-    margin: 10px;
+    margin-left: 500px;
+    margin-bottom: 10px;
     height: 300px;
     overflow: hidden;
 }
@@ -206,6 +208,7 @@ img {
 }
 
 .pagination {
+    margin-left: 500px;
     display: flex;
     list-style: none;
     justify-content: center;
@@ -241,6 +244,9 @@ img {
     box-sizing: border-box;
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
     border-radius: 10px;
+    position: fixed;
+    top: 50px; /* Выберите подходящее значение отступа сверху */
+    left: 20px; /* Выберите подходящее значение отступа слева */
 }
 .filter input[type="file"]::-webkit-file-upload-button{
     border-radius: 10px;
@@ -314,7 +320,7 @@ img {
     margin-bottom: 10px;
 }
 .list-of-rooms{
-    margin-left: 400px;
+    margin-left: 850px;
 }
 h1{
     color: #ffffff;
@@ -597,6 +603,11 @@ h4.fullPrice {
     margin-left: 18px;
     width: 160px;
 }
+
+.search-result{
+    margin-left: 500px;
+}
+
 .review-input{
     margin: auto;
     width: 800px;

@@ -1,7 +1,6 @@
 package com.example.hotelswebapp.security;
 
 import com.example.hotelswebapp.entity.UserEntity;
-import com.example.hotelswebapp.repos.UserRepo;
 import com.example.hotelswebapp.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

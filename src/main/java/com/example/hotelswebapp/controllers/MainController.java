@@ -25,7 +25,6 @@ import java.util.List;
 public class MainController {
     private final UserService userService;
     private final HotelRoomService hotelRoomService;
-    private final ReservationService reservationService;
     private final ReviewOfRoomService reviewOfRoomService;
 
     @GetMapping("/")
@@ -33,9 +32,11 @@ public class MainController {
                            @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
         pageable = PageRequest.of(page, pageable.getPageSize());
         Page<HotelRoomEntity> rooms = hotelRoomService.pageOfRooms(pageable);
+
         model.addAttribute("rooms", rooms);
         model.addAttribute("averageRatings", reviewOfRoomService.getAverageOfAllRooms(rooms));
         userService.addUserInfo(model);
+
         return "main";
     }
 
@@ -50,8 +51,7 @@ public class MainController {
                          @RequestParam(name = "minPrice", required = false, defaultValue = "0") int minPrice,
                          @RequestParam(name = "maxPrice", required = false, defaultValue = "0") int maxPrice,
                          @RequestParam(name = "sortBy", defaultValue = "default") String sortBy,
-                         RedirectAttributes redirectAttributes
-    ) {
+                         RedirectAttributes redirectAttributes) {
         userService.addUserInfo(model);
         if (checkInDate != null && checkOutDate != null) {
             if (checkOutDate.isBefore(checkInDate) || checkOutDate.equals(checkInDate)) {
@@ -107,6 +107,7 @@ public class MainController {
                 searchResultList.add(room);
             }
         }
+
         Page<HotelRoomEntity> result = new PageImpl<>(searchResultList);
         model.addAttribute("averageRatings", reviewOfRoomService.getAverageOfAllRooms(result));
         model.addAttribute("isEmpty", result.getContent().isEmpty());

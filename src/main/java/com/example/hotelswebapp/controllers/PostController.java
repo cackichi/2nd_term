@@ -40,39 +40,44 @@ public class PostController {
     }
 
     @PostMapping("/posting")
-    public String postingAdvertisement(
-            @ModelAttribute("hotelRoomEntity") HotelRoomEntity hotelRoomEntity
-            , @RequestParam("services") String services,
-            @RequestParam("images") MultipartFile[] files, Model model) {
+    public String postingAdvertisement(@ModelAttribute("hotelRoomEntity") HotelRoomEntity hotelRoomEntity
+                                        ,@RequestParam("services") String services
+                                        ,@RequestParam("images") MultipartFile[] files, Model model) {
         userService.addUserInfo(model);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserEntity userEntity = userService.getAuthUser(auth.getName());
         List<String> photos = new ArrayList<>();
         List<String> serviceList = List.of(services.split(","));
+
         String check = hotelRoomService.checkPosting(serviceList, model);
         if (!check.equals("1")) return check;
+
         hotelRoomEntity.setServices(serviceList);
         hotelRoomEntity.setPhotos(hotelRoomService.uploadPhoto(files,photos));
         hotelRoomEntity.setUserEntity(userEntity);
         hotelRoomService.saveHotelRoom(hotelRoomEntity);
+
         return "redirect:/posting";
     }
 
     @GetMapping("/post")
     public String postById(Model model, @PageableDefault(size = 3) Pageable pageable, @RequestParam(name = "roomId") int id) {
         HotelRoomEntity hotelRoomEntity = hotelRoomService.findRoomById(id);
-        model.addAttribute("room", hotelRoomEntity);
         List<Reservation> reservations = reservationService.findByRoomId(id);
-        model.addAttribute("reservations", reservations);
         Page<ReviewOfRoom> reviewOfRooms = reviewOfRoomService.findByRoomId(id,pageable);
+
+        model.addAttribute("room", hotelRoomEntity);
+        model.addAttribute("reservations", reservations);
         model.addAttribute("reviews", reviewOfRooms);
+        userService.addUserInfo(model);
+
         if(!reviewOfRooms.isEmpty()) {
             double rating = reviewOfRoomService.getAverageRating(reviewOfRoomService.findByRoomId(id));
             String formattedRating = String.format("%.1f", rating);
             model.addAttribute("rating", formattedRating);
         } else model.addAttribute("rating", "5,0");
-        userService.addUserInfo(model);
+
         return "post";
     }
 
@@ -84,6 +89,7 @@ public class PostController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(!auth.getName().equals("anonymousUser")) {
             HotelRoomEntity room = hotelRoomService.findRoomById(id);
+
             if (checkInDate != null && checkOutDate != null) {
                 if (checkOutDate.isBefore(checkInDate) || checkOutDate.equals(checkInDate)) {
                     redirectAttributes.addFlashAttribute("errorOfIncorrectDate", "Выберите дату правильно");
@@ -96,12 +102,14 @@ public class PostController {
                         return "post";
                     }
                 }
+
                 UserEntity userEntity = userService.getAuthUser(auth.getName());
-                Reservation newReservation = new Reservation();
-                newReservation.setDateOfReservation(checkInDate);
-                newReservation.setDateOfEviction(checkOutDate);
-                newReservation.setUserEntity(userEntity);
-                newReservation.setHotelRoomEntity(room);
+                Reservation newReservation = Reservation.builder()
+                        .dateOfReservation(checkInDate)
+                        .dateOfEviction(checkOutDate)
+                        .hotelRoomEntity(room)
+                        .userEntity(userEntity)
+                        .build();
                 reservationService.save(newReservation);
                 redirectAttributes.addAttribute("roomId",id);
             }
@@ -116,13 +124,15 @@ public class PostController {
                             @RequestParam(name = "userNameToAddReview") String username){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(!auth.getName().equals("anonymousUser")) {
-            ReviewOfRoom reviewOfRoom = new ReviewOfRoom();
-            reviewOfRoom.setRating(rating);
-            reviewOfRoom.setText(reviewText);
-            reviewOfRoom.setDatePost(LocalDate.now());
-            reviewOfRoom.setHotelRoomEntity(hotelRoomService.findRoomById(id));
-            reviewOfRoom.setUserEntity(userService.findByLogin(username).get());
+            ReviewOfRoom reviewOfRoom = ReviewOfRoom.builder()
+                    .datePost(LocalDate.now())
+                    .text(reviewText)
+                    .rating(rating)
+                    .hotelRoomEntity(hotelRoomService.findRoomById(id))
+                    .userEntity(userService.findByLogin(username).get())
+                    .build();
             reviewOfRoomService.saveReview(reviewOfRoom);
+
             redirectAttributes.addAttribute("roomId", id);
             return "redirect:/post";
         } else return "login";

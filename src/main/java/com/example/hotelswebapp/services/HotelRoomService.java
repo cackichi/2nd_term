@@ -42,7 +42,7 @@ public class HotelRoomService {
                     file.transferTo(uploadFile);
                     photos.add(fileName);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Файл не найден");
                 }
             }
         }
@@ -80,8 +80,7 @@ public class HotelRoomService {
             try {
                 Files.delete(path);
             } catch (IOException e) {
-                throw new RuntimeException(e);
-                // Обработать
+                System.out.println("Файл не найден");
             }
         }
     }
@@ -99,7 +98,7 @@ public class HotelRoomService {
                     try {
                         Files.delete(path);
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Файл не найден");
                     }
                 }
             }

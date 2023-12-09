@@ -1,10 +1,7 @@
 package com.example.hotelswebapp.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "review")
 public class ReviewOfRoom {
     @Id

@@ -10,7 +10,7 @@
 <div class="content-wrapper">
   <div th:if="${not isEmpty}">
     <form class="select-sort" id="sortForm">
-      <select name="sortSelect" id="sortSelect">
+      <select name="sortSelect" id="sortSelect" onchange="updateSortOption()">
         <option value="default">Сортировка</option>
         <option value="byPrice">По цене: сначала дешевые</option>
         <option value="byPriceDescending">По цене: сначала дорогие</option>
@@ -19,9 +19,8 @@
         <option value="byAlphabet">По алфавиту: от А до Я</option>
         <option value="byAlphabetDescending">По алфавиту: от Я до А</option>
       </select>
-      <button class="default-btn" type="button" onclick="sortList()">Сортировать</button>
     </form>
-    <h2 class="admin">Результат поиска:</h2>
+    <h2 class="admin search-result">Результат поиска</h2>
     <ul class="room-list" id="roomList">
       <li th:each="room, indx : ${result.content}" th:data-byPrice="${room.pricePerDay}" th:data-bySleepers="${room.amountOfSleepers}" th:data-byAlphabet="${room.name}">
         <a th:href="@{'/post?roomId=' + ${room.id}}" class="room-link">
@@ -76,51 +75,33 @@
 </body>
 <footer th:insert="~{blocks/footer :: footer}"></footer>
 <script>
-  // Обновление sessionStorage при изменении значения сортировки
-  function updateSortOption() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var sortByParam = new URLSearchParams(window.location.search).get('sortBy');
     var select = document.getElementById('sortSelect');
-    var selectedOption = select.options[select.selectedIndex].value;
-    sessionStorage.setItem('selectedSortOption', selectedOption);
-  }
 
-  // Получение сохраненного значения сортировки при загрузке страницы
-  function getSavedSortOption() {
-    return sessionStorage.getItem('selectedSortOption');
-  }
-
-  // Задаем сохраненное значение при загрузке страницы
-  document.addEventListener('DOMContentLoaded', function () {
-    var savedSortOption = getSavedSortOption();
-    if (savedSortOption) {
-      var select = document.getElementById('sortSelect');
-      select.value = savedSortOption;
+    if (sortByParam) {
+      // Если параметр sortBy есть в URL, устанавливаем его значение в селекте
+      select.value = sortByParam;
     }
   });
 
-  // Вызываем updateSortOption при изменении значения в селекте
-  document.getElementById('sortSelect').addEventListener('change', updateSortOption);
-
-  // Функция сортировки
-  function sortList() {
-    var selectedOption = getSavedSortOption();
+  // Обновление URL при изменении значения сортировки
+  function updateSortOption() {
+    var select = document.getElementById('sortSelect');
+    var selectedOption = select.options[select.selectedIndex].value;
 
     // Получаем текущий URL
-    var url = window.location.href;
+    var url = new URL(window.location.href);
 
-    // Ищем существующий параметр sortBy в URL
-    var sortByIndex = url.indexOf('&sortBy=');
-
-    // Если параметр sortBy уже существует, обрезаем его из URL
-    if (sortByIndex !== -1) {
-      url = url.substring(0, sortByIndex);
-    }
-
-    // Добавляем выбранное значение сортировки в URL
-    url = url + "&sortBy=" + selectedOption;
+    // Обновляем параметр sortBy в URL
+    url.searchParams.set('sortBy', selectedOption);
 
     // Перенаправляем на обновленный URL
-    window.location.href = url;
+    window.location.href = url.href;
   }
+
+  // Вызываем updateSortOption при изменении значения в селекте
+  document.getElementById('sortSelect').addEventListener('change', updateSortOption);
 
 </script>
 </html>

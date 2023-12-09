@@ -83,3 +83,125 @@ public class UserService {
         userRepo.delete(userToDelete);
     }
 }
+
+/*
+подскажи как на этой странице при скролле
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hotel</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+    </head>
+    <header th:insert="~{blocks/header :: header}"></header>
+    <div class="centered">
+        <div th:if="${errorOfIncorrectDate}" class="alert-danger">
+            <p th:text="${errorOfIncorrectDate}"></p>
+        </div>
+        <div th:if="${errorOfNotYourRoom}" class="alert-danger">
+            <p th:text="${errorOfNotYourRoom}"></p>
+        </div>
+        <div th:if="${errorOfIncorrectInputPrice}" class="alert-danger">
+            <p th:text="${errorOfIncorrectInputPrice}"></p>
+        </div>
+    </div>
+    <body>
+    <div class="review">
+    <div class="container">
+        <div class="row">
+            <div class="filter">
+                <form th:action="@{/search}" th:method="get">
+                    <fieldset>
+                        <legend>Бронирование номеров в отеле</legend>
+                            <label for="roomName">Название номера:</label>
+                            <input type="text" id="roomName" name="roomName" placeholder="Введите название номера">
+
+                            <label for="checkInDate">Дата заезда:</label>
+                            <input type="date" id="checkInDate" name="checkInDate" min="2023-10-18">
+
+                            <label for="checkOutDate">Дата выезда:</label>
+                            <input type="date" id="checkOutDate" name="checkOutDate" min="2023-10-18">
+
+                            <label for="amountOfSleepers">Количество гостей:</label>
+                            <select id="amountOfSleepers" name="amountOfSleepers">
+                                <option value="1">1 гость</option>
+                                <option value="2">2 гостя</option>
+                                <option value="3">3 гостя</option>
+                                <option value="4">4 гостя</option>
+                            </select>
+                            <div>
+                                <label>Диапазон цен:</label>
+                                <div class="row">
+                                    <div class="col-left">
+                                        <input type="number" id="minPrice" name="minPrice" placeholder="Минимальная цена (в $)">
+                                    </div>
+                                    <div class="col-right">
+                                        <input type="number" id="maxPrice" name="maxPrice" placeholder="Максимальная цена (в $ )">
+                                    </div>
+                                </div>
+                            </div>
+                    </fieldset>
+                        <button type="submit" class="sign-btn">Поиск</button>
+                </form>
+            </div>
+        </div>
+    </div>
+        <div class="links">
+        <h1 th:if="${not rooms.isEmpty()}" class="list-of-rooms" >Список номеров</h1>
+        <ul class="room-list">
+            <li th:each="room, indx : ${rooms.content}">
+                <a th:href="@{'/post?roomId=' + ${room.id}}" class="room-link">
+                <div class="room">
+                    <img th:src="@{'/photos/' + ${room.photos.get(0)}}" alt="Изображение номера" width="150" height="150">
+                    <div class="room-details-main">
+                        <h2>
+                            Название номера:
+                            <span th:text="${room.name + ' ' + averageRatings[indx.index]}"></span>
+                            <span>&#9733;</span>
+                        </h2>
+                        <p>Спальных мест: <span th:text="${room.amountOfSleepers}"></span></p>
+                    <p>Услуги:
+                    <ul>
+                        <li class="services" th:each="service : ${room.services}">
+                            <span th:text="${service}"></span>
+                        </li>
+                    </ul>
+                    </p>
+                        <p>Цена за день: <span th:text="${room.pricePerDay} + '$'"></span></p>
+                    </div>
+                </div>
+                </a>
+            </li>
+        </ul>
+
+    <div th:if="${rooms.totalPages > 1}">
+        <ul class="pagination">
+            <li th:class="${rooms.number == 0} ? 'disabled'">
+                <a th:if="${rooms.number != 0}" th:href="@{'/?page=' + ${rooms.number - 1}}">
+                    <span class="arrow-circle">&laquo;</span>
+                </a>
+            </li>
+
+            <li th:class="${rooms.number == 0} ? 'disabled'">
+                <a th:if="${rooms.number != rooms.totalPages - 1}" th:href="@{'/?page=' + ${rooms.number + 1}}">
+                    <span class="arrow-circle">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    </div>
+
+    <footer th:insert="~{blocks/footer :: footer}"></footer>
+    <script>
+        const currentDate = new Date();
+
+        const formattedCurrentDate = currentDate.toISOString().split('T')[0];
+
+        document.getElementById('checkInDate').min = formattedCurrentDate;
+        document.getElementById('checkOutDate').min = formattedCurrentDate;
+    </script>
+    </body>
+    </html>
+container перемещался и всегда был в центре экрана
+ */
